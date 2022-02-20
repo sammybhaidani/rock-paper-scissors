@@ -13,43 +13,75 @@ function playerChoice() {
     return playerSelection;
 }
 
-const cpuChoice = computerPlay();
-const playerSelection = playerChoice();
 
 // Determines the winner of a round of rps
-function playRound(playerSelection, cpuChoice) {
+function playRound(playerSelection, computerSelection) {
 
     playerSelection = playerSelection.toLowerCase();
     console.log(`Player: ${playerSelection}`);
-    console.log(`Computer: ${cpuChoice}`);
+    console.log(`Computer: ${computerSelection}`);
 
     let playerWin = false;
     let computerWin = false;
     let draw = false;
 
-    if (playerSelection == 'rock' && cpuChoice == 'scissors') {
+    let roundWinner = '';
+
+    if (playerSelection == 'rock' && computerSelection == 'scissors') {
         playerWin = true;
-    } else if (playerSelection == 'rock' && cpuChoice == 'paper') {
+    } else if (playerSelection == 'rock' && computerSelection == 'paper') {
         computerWin = true;
-    } else if (playerSelection == 'paper' && cpuChoice == 'rock') {
+    } else if (playerSelection == 'paper' && computerSelection == 'rock') {
         playerWin = true;
-    } else if (playerSelection == 'paper' && cpuChoice == 'scissors') {
+    } else if (playerSelection == 'paper' && computerSelection == 'scissors') {
         computerWin = true;
-    } else if (playerSelection == 'scissors' && cpuChoice == 'paper') {
+    } else if (playerSelection == 'scissors' && computerSelection == 'paper') {
         playerWin = true;
-    } else if (playerSelection == 'scissors' && cpuChoice == 'rock') {
+    } else if (playerSelection == 'scissors' && computerSelection == 'rock') {
         computerWin = true;
     } else {
         draw = true;
     }
 
     if (playerWin) {
-        console.log(`You Win! ${playerSelection} beats ${cpuChoice}`);
+        roundWinner = `You Win! ${playerSelection} beats ${computerSelection}`;
     } else if (computerWin) {
-        console.log(`You Lose! ${cpuChoice} beats ${playerSelection}`);
+        roundWinner = `You Lose! ${computerSelection} beats ${playerSelection}`;
     } else if (draw) {
-        console.log(`TIE! ${playerSelection} vs ${cpuChoice}`);
+        roundWinner = `TIE! ${playerSelection} vs ${computerSelection}`;
+    }
+
+    return roundWinner;
+}
+
+function game () {
+
+    let playerScore = 0;
+    let computerScore = 0;
+
+    for (let i = 0; i < 5; i++) {
+
+        computerSelection = computerPlay();
+        playerSelection = playerChoice();
+
+        let roundWinner = playRound(playerSelection, computerSelection);
+        console.log(`Round ${i + 1}: ${roundWinner}`);
+
+        if (roundWinner == `You Win! ${playerSelection} beats ${computerSelection}`) {
+            playerScore++
+        } else if (roundWinner == `You Lose! ${computerSelection} beats ${playerSelection}`) {
+            computerScore++;
+        } 
+    }
+
+    if (playerScore > computerScore) {
+        console.log(`You Win! Score: [Player: ${playerScore}] vs [Computer: ${computerScore}]`);
+    } else if (computerScore > playerScore) {
+        console.log(`You Lose! Score: [Player: ${playerScore}] vs [Computer: ${computerScore}]`);
+    } else {
+        console.log(`TIE! [Player: ${playerScore}] vs [Computer: ${computerScore}]`);
     }
 }
 
-playRound(playerSelection, cpuChoice);
+game();
+
