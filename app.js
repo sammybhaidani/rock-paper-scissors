@@ -1,22 +1,31 @@
 // Returns the computer option
 function computerPlay() {
     const options = ['rock', 'paper', 'scissors'];
-    cpuIndex = Math.floor(Math.random() * options.length);
-    return options[cpuIndex];
+    index = Math.floor(Math.random() * options.length);
+    return options[index];
 }
 
 // Returns the player's option
 function playerChoice() {
-    const playerSelection = prompt('Enter a choice: Rock, Paper or Scissors');
-    // TODO: check that input is in the correct format, i.e no numbers or strings other
-    // than rps
+
+    let playerSelection = prompt('Enter a choice: Rock, Paper or Scissors');
+    playerSelection = playerSelection.toLowerCase();
+
+    let valid = false;
+    while (!valid) {
+        if (playerSelection !== 'rock' && playerSelection !== 'paper' && playerSelection !== 'scissors') {
+            playerSelection = prompt('Enter a choice: Rock, Paper or Scissors');
+        } else {
+            valid = true;
+        }
+    }
+
     return playerSelection;
 }
 
 // Determines the winner of a round of rps
 function playRound(playerSelection, computerSelection) {
 
-    playerSelection = playerSelection.toLowerCase();
     console.log(`You: [${playerSelection}] vs Computer: [${computerSelection}]`);
 
     let playerWin = false;
@@ -24,7 +33,7 @@ function playRound(playerSelection, computerSelection) {
     let draw = false;
 
     let roundWinner = '';
-
+    
     if (playerSelection == 'rock' && computerSelection == 'scissors') {
         playerWin = true;
     } else if (playerSelection == 'rock' && computerSelection == 'paper') {
