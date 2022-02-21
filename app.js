@@ -13,13 +13,11 @@ function playerChoice() {
     return playerSelection;
 }
 
-
 // Determines the winner of a round of rps
 function playRound(playerSelection, computerSelection) {
 
     playerSelection = playerSelection.toLowerCase();
-    console.log(`Player: ${playerSelection}`);
-    console.log(`Computer: ${computerSelection}`);
+    console.log(`You: [${playerSelection}] vs Computer: [${computerSelection}]`);
 
     let playerWin = false;
     let computerWin = false;
@@ -44,11 +42,11 @@ function playRound(playerSelection, computerSelection) {
     }
 
     if (playerWin) {
-        roundWinner = `You Win! ${playerSelection} beats ${computerSelection}`;
+        roundWinner = 'Player';
     } else if (computerWin) {
-        roundWinner = `You Lose! ${computerSelection} beats ${playerSelection}`;
+        roundWinner = 'Computer';
     } else if (draw) {
-        roundWinner = `TIE! ${playerSelection} vs ${computerSelection}`;
+        roundWinner = 'TIE!';
     }
 
     return roundWinner;
@@ -58,29 +56,38 @@ function game () {
 
     let playerScore = 0;
     let computerScore = 0;
+    let round = 0;
 
-    for (let i = 0; i < 5; i++) {
+    while (playerScore != 5 && computerScore!= 5) {
 
         computerSelection = computerPlay();
         playerSelection = playerChoice();
 
         let roundWinner = playRound(playerSelection, computerSelection);
-        console.log(`Round ${i + 1}: ${roundWinner}`);
+        
+        if (roundWinner == 'Player') {
 
-        if (roundWinner == `You Win! ${playerSelection} beats ${computerSelection}`) {
+            console.log(`Round ${round + 1}: You win! ${playerSelection} beats ${computerSelection}`);
             playerScore++
-        } else if (roundWinner == `You Lose! ${computerSelection} beats ${playerSelection}`) {
-            computerScore++;
-        } 
-    }
+            
+        } else if (roundWinner == 'Computer') {
 
-    if (playerScore > computerScore) {
-        console.log(`You Win! Score: [Player: ${playerScore}] vs [Computer: ${computerScore}]`);
-    } else if (computerScore > playerScore) {
-        console.log(`You Lose! Score: [Player: ${playerScore}] vs [Computer: ${computerScore}]`);
-    } else {
-        console.log(`TIE! [Player: ${playerScore}] vs [Computer: ${computerScore}]`);
+            console.log(`Round ${round + 1}: ${roundWinner} wins! ${computerSelection} beats ${playerSelection}`);
+            computerScore++;   
+
+        }
+        else {
+            console.log(`Round ${round + 1}: ${roundWinner}`);
+        }
+        console.log(`Current Score: [You: ${playerScore}] vs [Computer: ${computerScore}]`);
+        round++;
     }
+        
+    if (playerScore == 5) {
+        console.log(`You Win! Final score: [You: ${playerScore}] vs [Computer: ${computerScore}]`);
+    } else if (computerScore == 5){
+        console.log(`You Lose! Final score: [You: ${playerScore}] vs [Computer: ${computerScore}]`);
+    } 
 }
 
 game();
